@@ -1,0 +1,50 @@
+# Build
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# ASP.NET / IIS
+wwwroot/uploads/
+wwwroot/temp/
+
+# NuGet
+*.nupkg
+packages/
+!packages/build/
+
+# Test Results
+TestResults/
+
+# Entity Framework
+*.mdf
+*.ldf
+
+# Publish
+publish/
+*.pubxml
+*.publishsettings
+
+# OS files
+Thumbs.db
+Desktop.ini
+
+# Secrets
+appsettings.Development.json
+secrets.json
+
+# JetBrains
+_ReSharper*/
+*.DotSettings.user
