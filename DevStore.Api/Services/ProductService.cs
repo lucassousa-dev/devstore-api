@@ -82,6 +82,15 @@ namespace DevStore.Api.Services
 
         public ProductResponseDto? UpdateProduct(int id, UpdateProductRequest request)
         {
+            if (request.Name == null)
+                throw new Exception("Nome inválido");
+
+            if (request.Price == null || request.Price <= 0)
+                throw new Exception("Preço inválido");
+
+            if (request.Stock == null || request.Stock < 0)
+                throw new Exception("Valor inválido para estoque");
+
             foreach (var produto in produtos)
             {
                 if (produto.Id == id) 
