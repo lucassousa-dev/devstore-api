@@ -12,11 +12,14 @@ namespace DevStore.Api.Controllers
     // Dizendo que essa rota chamará o mesmo nome da nossa classe, ou seja: api/products pois o asp.net remove o "Controller" da classe
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase {
-        // Aqui estamos criando o array de produtos
         private static List<Product> produtos = new();
-        private ProductService productService = new ProductService();
 
-        //Aqui diz que ao chamar uma requisição get vai retornar a lista de produtos
+        private ProductService productService;
+
+        public ProductsController(ProductService productService) { 
+            this.productService = productService;
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {
