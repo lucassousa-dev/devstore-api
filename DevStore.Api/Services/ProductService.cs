@@ -116,16 +116,24 @@ namespace DevStore.Api.Services
 
         public bool DeleteProduct(int id)
         {
+            Product? produtoEncontrado = null;
+
             foreach (var produto in produtos)
             {
+
                 if (produto.Id == id)
                 {
-                    produtos.Remove(produto);
-                    return true;
+                    produtoEncontrado = produto;
+                    break;
                 }
             }
 
-            return false;
+            if (produtoEncontrado == null)
+                return false;
+
+
+            produtos.Remove(produtoEncontrado);
+            return true;
         }
     }
 }
