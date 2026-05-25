@@ -1,13 +1,15 @@
 ﻿using DevStore.Api.DTOs;
 using DevStore.Api.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Runtime.CompilerServices;
 
 namespace DevStore.Api.Services
 {
     public class ProductService
     {
         private static List<Product> produtos = new();
-        public Product CreateProduct(CreateProductRequest request)
+
+        public ProductResponseDto CreateProduct(CreateProductRequest request)
         {
             if (request.Name == null)
                 throw new Exception("Nome inválido");
@@ -28,20 +30,51 @@ namespace DevStore.Api.Services
 
             produtos.Add(produto);
 
-            return produto;
+            var responseProduct = new ProductResponseDto
+            {
+                Id = produto.Id,
+                Name = produto.Name,
+                Price = produto.Price,
+                Stock = produto.Stock
+            };
+
+            return responseProduct;
         }
 
-        public List<Product> GetAll()
+        public List<ProductResponseDto> GetAll()
         {
-            return produtos;
+            List<ProductResponseDto> listaProdutos = new();
+
+            foreach (var produto in produtos)
+            {
+                var responseProduct = new ProductResponseDto
+                {
+                    Id = produto.Id,
+                    Name = produto.Name,
+                    Price = produto.Price,
+                    Stock = produto.Stock
+                };
+
+                listaProdutos.Add(responseProduct);
+            }
+
+            return listaProdutos;
         }
 
-        public Product? GetById(int id)
+        public ProductResponseDto? GetById(int id)
         {
             foreach (var produto in produtos)
             {
-                if(produto.Id == id)
-                    return produto;
+                if(produto.Id == id) {
+                    var responseProduct = new ProductResponseDto
+                    {
+                        Id = produto.Id,
+                        Name = produto.Name,
+                        Price = produto.Price,
+                        Stock = produto.Stock
+                    };
+                    return responseProduct;
+                }
 
             }
             return null;
