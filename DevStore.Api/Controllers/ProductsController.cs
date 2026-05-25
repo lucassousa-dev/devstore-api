@@ -49,5 +49,18 @@ namespace DevStore.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, UpdateProductRequest request) {
+            try
+            {
+                var productUpdate = productService.UpdateProduct(id, request);
+                return Ok(productUpdate);
+            } 
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }

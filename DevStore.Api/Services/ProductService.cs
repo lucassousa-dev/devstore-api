@@ -79,5 +79,30 @@ namespace DevStore.Api.Services
             }
             return null;
         }
+
+        public ProductResponseDto? UpdateProduct(int id, UpdateProductRequest request)
+        {
+            foreach (var produto in produtos)
+            {
+                if (produto.Id == id) 
+                {
+                    produto.Name = request.Name;
+                    produto.Price = request.Price;
+                    produto.Stock = request.Stock;
+
+                    var responseProduct = new ProductResponseDto
+                    {
+                        Id = produto.Id,
+                        Name = produto.Name,
+                        Price = produto.Price,
+                        Stock = produto.Stock,
+                    };
+
+                    return responseProduct;
+                }
+            }
+
+            return null;
+        }
     }
 }
