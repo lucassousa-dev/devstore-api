@@ -55,12 +55,32 @@ namespace DevStore.Api.Controllers
             try
             {
                 var productUpdate = productService.UpdateProduct(id, request);
+
+                if (productUpdate == null)
+                    return NotFound();
+
                 return Ok(productUpdate);
             } 
             catch (Exception ex) {
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id) 
+        {
+            try
+            {
+                var productDelete = productService.DeleteProduct(id);
+                if (productDelete == true)
+                    return NoContent();
+
+                return NotFound();
+            }
+            catch (Exception ex) { 
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

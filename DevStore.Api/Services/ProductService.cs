@@ -1,7 +1,5 @@
 ﻿using DevStore.Api.DTOs;
 using DevStore.Api.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Runtime.CompilerServices;
 
 namespace DevStore.Api.Services
 {
@@ -11,7 +9,7 @@ namespace DevStore.Api.Services
 
         public ProductResponseDto CreateProduct(CreateProductRequest request)
         {
-            if (request.Name == null)
+            if (string.IsNullOrWhiteSpace(request.Name))
                 throw new Exception("Nome inválido");
 
             if (request.Price <= 0)
@@ -30,15 +28,7 @@ namespace DevStore.Api.Services
 
             produtos.Add(produto);
 
-            var responseProduct = new ProductResponseDto
-            {
-                Id = produto.Id,
-                Name = produto.Name,
-                Price = produto.Price,
-                Stock = produto.Stock
-            };
-
-            return responseProduct;
+            return MapToResponseDto(produto);
         }
 
         public List<ProductResponseDto> GetAll()
@@ -46,17 +36,7 @@ namespace DevStore.Api.Services
             List<ProductResponseDto> listaProdutos = new();
 
             foreach (var produto in produtos)
-            {
-                var responseProduct = new ProductResponseDto
-                {
-                    Id = produto.Id,
-                    Name = produto.Name,
-                    Price = produto.Price,
-                    Stock = produto.Stock
-                };
-
-                listaProdutos.Add(responseProduct);
-            }
+                listaProdutos.Add(MapToResponseDto(produto));
 
             return listaProdutos;
         }
@@ -65,17 +45,8 @@ namespace DevStore.Api.Services
         {
             foreach (var produto in produtos)
             {
-                if(produto.Id == id) {
-                    var responseProduct = new ProductResponseDto
-                    {
-                        Id = produto.Id,
-                        Name = produto.Name,
-                        Price = produto.Price,
-                        Stock = produto.Stock
-                    };
-                    return responseProduct;
-                }
-
+                if(produto.Id == id) 
+                    return MapToResponseDto(produto);
             }
             return null;
         }
@@ -99,15 +70,7 @@ namespace DevStore.Api.Services
                     produto.Price = request.Price;
                     produto.Stock = request.Stock;
 
-                    var responseProduct = new ProductResponseDto
-                    {
-                        Id = produto.Id,
-                        Name = produto.Name,
-                        Price = produto.Price,
-                        Stock = produto.Stock,
-                    };
-
-                    return responseProduct;
+                    return MapToResponseDto(produto);
                 }
             }
 
@@ -134,6 +97,19 @@ namespace DevStore.Api.Services
 
             produtos.Remove(produtoEncontrado);
             return true;
+        }
+
+        private ProductResponseDto MapToResponseDto(Product product)
+        {
+            var responseProduct = new ProductResponseDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock,
+            };
+
+            return responseProduct;
         }
     }
 }
