@@ -1,11 +1,17 @@
 ﻿using DevStore.Api.DTOs;
+using DevStore.Api.Data;
 using DevStore.Api.Models;
 
 namespace DevStore.Api.Services
 {
     public class ProductService
     {
-        private static List<Product> produtos = new();
+        private readonly AppDbContext context;
+
+        public ProductService(AppDbContext context)
+        {
+            this.context = context;
+        }
 
         public ProductResponseDto CreateProduct(CreateProductRequest request)
         {
@@ -20,22 +26,24 @@ namespace DevStore.Api.Services
 
             var produto = new Product
             {
-                Id = produtos.Count + 1,
                 Name = request.Name,
                 Price = request.Price,
                 Stock = request.Stock
             };
 
-            produtos.Add(produto);
+            context.Products.Add(produto);
+            context.SaveChanges();
 
             return MapToResponseDto(produto);
         }
 
         public List<ProductResponseDto> GetAll()
         {
+            var listDbProducts = context.Products.ToList();
+
             List<ProductResponseDto> listaProdutos = new();
 
-            foreach (var produto in produtos)
+            foreach (var produto in listDbProducts)
                 listaProdutos.Add(MapToResponseDto(produto));
 
             return listaProdutos;
@@ -43,12 +51,13 @@ namespace DevStore.Api.Services
 
         public ProductResponseDto? GetById(int id)
         {
-            foreach (var produto in produtos)
-            {
-                if(produto.Id == id) 
-                    return MapToResponseDto(produto);
-            }
-            return null;
+            var product = context.Products.FirstOrDefault(a => a.Id == id);
+
+            if (product == null)
+                return null;
+
+            return MapToResponseDto(product);
+
         }
 
         public ProductResponseDto? UpdateProduct(int id, UpdateProductRequest request)
@@ -62,40 +71,33 @@ namespace DevStore.Api.Services
             if (request.Stock < 0)
                 throw new Exception("Valor inválido para estoque");
 
-            foreach (var produto in produtos)
-            {
-                if (produto.Id == id) 
-                {
-                    produto.Name = request.Name;
-                    produto.Price = request.Price;
-                    produto.Stock = request.Stock;
+            var product = context.Products.FirstOrDefault(p => p.Id == id);
 
-                    return MapToResponseDto(produto);
-                }
-            }
+            if (product == null)
+                return null;
 
-            return null;
+            product.Name = request.Name;
+            product.Price = request.Price;
+            product.Stock = request.Stock;
+
+            context.SaveChanges();
+
+            return MapToResponseDto(product);
+            
+
         }
 
         public bool DeleteProduct(int id)
         {
-            Product? produtoEncontrado = null;
 
-            foreach (var produto in produtos)
-            {
-
-                if (produto.Id == id)
-                {
-                    produtoEncontrado = produto;
-                    break;
-                }
+            var produto =  context.Products.FirstOrDefault(p => p.Id == id);
+            if (produto == null)
+                return false;
+            else { 
+                context.Products.Remove(produto);
+                context.SaveChanges();
             }
 
-            if (produtoEncontrado == null)
-                return false;
-
-
-            produtos.Remove(produtoEncontrado);
             return true;
         }
 
