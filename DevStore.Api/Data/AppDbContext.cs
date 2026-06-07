@@ -10,5 +10,12 @@ namespace DevStore.Api.Data
         }
 
         public DbSet<Product> Products { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Product>()
+                .Property(Product => Product.Price)
+                .HasPrecision(18, 2);
+        }
     }
 }
