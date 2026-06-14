@@ -12,7 +12,6 @@ namespace DevStore.Api.Controllers
     // Dizendo que essa rota chamará o mesmo nome da nossa classe, ou seja: api/products pois o asp.net remove o "Controller" da classe
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase {
-        private static List<Product> produtos = new();
 
         private ProductService productService;
 
