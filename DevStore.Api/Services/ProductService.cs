@@ -1,6 +1,7 @@
 ﻿using DevStore.Api.DTOs;
 using DevStore.Api.Data;
 using DevStore.Api.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace DevStore.Api.Services
 {
@@ -24,11 +25,16 @@ namespace DevStore.Api.Services
             if (request.Stock < 0)
                 throw new Exception("O estoque não pode ter um valor menor do que zero.");
 
+            var category = context.Categories.FirstOrDefault(c => c.Id == request.CategoryId);
+            if (category == null)
+                throw new Exception("A categoria não existe");
+
             var produto = new Product
             {
                 Name = request.Name,
                 Price = request.Price,
-                Stock = request.Stock
+                Stock = request.Stock,
+                CategoryId = request.CategoryId
             };
 
             context.Products.Add(produto);
@@ -37,7 +43,7 @@ namespace DevStore.Api.Services
             return MapToResponseDto(produto);
         }
 
-        public List<ProductResponseDto> GetAll()
+            public List<ProductResponseDto> GetAll()
         {
             var listDbProducts = context.Products.ToList();
 
@@ -72,19 +78,22 @@ namespace DevStore.Api.Services
                 throw new Exception("Valor inválido para estoque");
 
             var product = context.Products.FirstOrDefault(p => p.Id == id);
-
             if (product == null)
                 return null;
+
+            var category = context.Categories.FirstOrDefault(c => c.Id == request.CategoryId);
+            if (category == null)
+                throw new Exception("A categoria não existe.");
 
             product.Name = request.Name;
             product.Price = request.Price;
             product.Stock = request.Stock;
+            product.CategoryId = request.CategoryId;
 
             context.SaveChanges();
 
             return MapToResponseDto(product);
             
-
         }
 
         public bool DeleteProduct(int id)
@@ -109,6 +118,7 @@ namespace DevStore.Api.Services
                 Name = product.Name,
                 Price = product.Price,
                 Stock = product.Stock,
+                CategoryId = product.CategoryId
             };
 
             return responseProduct;

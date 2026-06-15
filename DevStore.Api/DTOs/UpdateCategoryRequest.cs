@@ -1,4 +1,6 @@
-﻿namespace DevStore.Api.DTOs
+﻿using DevStore.Api.Models;
+
+namespace DevStore.Api.DTOs
 {
     public class UpdateCategoryRequest
     {
