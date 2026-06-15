@@ -2,6 +2,7 @@
 using DevStore.Api.Data;
 using DevStore.Api.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace DevStore.Api.Services
 {
@@ -45,7 +46,9 @@ namespace DevStore.Api.Services
 
             public List<ProductResponseDto> GetAll()
         {
-            var listDbProducts = context.Products.ToList();
+            var listDbProducts = context.Products
+                                    .Include(p => p.Category)
+                                    .ToList();
 
             List<ProductResponseDto> listaProdutos = new();
 
@@ -57,7 +60,9 @@ namespace DevStore.Api.Services
 
         public ProductResponseDto? GetById(int id)
         {
-            var product = context.Products.FirstOrDefault(a => a.Id == id);
+            var product = context.Products
+                                    .Include(p => p.Category)
+                                    .FirstOrDefault(a => a.Id == id);
 
             if (product == null)
                 return null;
@@ -77,7 +82,9 @@ namespace DevStore.Api.Services
             if (request.Stock < 0)
                 throw new Exception("Valor inválido para estoque");
 
-            var product = context.Products.FirstOrDefault(p => p.Id == id);
+            var product = context.Products
+                                    .Include(p => p.Category)
+                                    .FirstOrDefault(p => p.Id == id);
             if (product == null)
                 return null;
 
@@ -118,7 +125,8 @@ namespace DevStore.Api.Services
                 Name = product.Name,
                 Price = product.Price,
                 Stock = product.Stock,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+                CategoryName = product.Category.Name
             };
 
             return responseProduct;
