@@ -1,18 +1,53 @@
 # DevStore.Api
 
-API REST desenvolvida em ASP.NET Core como parte do meu aprendizado em desenvolvimento back-end com C#, Entity Framework Core e SQL Server.
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
+![Entity Framework Core](https://img.shields.io/badge/Entity%20Framework%20Core-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
 
-O objetivo do projeto é praticar a construção de uma API organizada, com separação de responsabilidades, uso de DTOs, Services, Entity Framework Core, migrations, relacionamento entre entidades e retornos HTTP adequados.
+API REST desenvolvida em **ASP.NET Core** para gerenciamento de **produtos** e **categorias**, com persistência em **SQL Server** utilizando **Entity Framework Core**.
+
+O projeto foi criado como parte do meu processo de consolidação em desenvolvimento back-end com **C#/.NET**, aplicando conceitos como organização em camadas, DTOs, Services, validações, migrations, relacionamento entre entidades e retornos HTTP adequados.
+
+---
+
+## Status do projeto
+
+✅ **Versão de estudo concluída**
+
+A DevStore.Api atingiu seu objetivo principal: praticar a construção de uma API REST em ASP.NET Core com CRUD, DTOs, Services, Entity Framework Core, SQL Server, migrations e relacionamento entre entidades.
+
+O projeto pode receber melhorias futuras, mas a versão atual já cumpre seu papel como projeto de consolidação dos fundamentos de back-end em C#/.NET.
+
+---
+
+## Objetivo
+
+Construir uma API de estudo com escopo controlado, mas organizada o suficiente para praticar fundamentos usados em projetos reais de back-end:
+
+- criação de endpoints REST;
+- separação entre Controllers, Services, DTOs, Models e Data;
+- validação de dados de entrada;
+- persistência com Entity Framework Core;
+- relacionamento 1:N entre categorias e produtos;
+- migrations e criação de banco no SQL Server;
+- testes manuais com Postman.
+
+---
 
 ## Tecnologias utilizadas
 
-- C#
-- ASP.NET Core Web API
-- Entity Framework Core
-- SQL Server
-- SQL Server Management Studio
-- Postman
-- Git e GitHub
+- **C#**
+- **.NET**
+- **ASP.NET Core Web API**
+- **Entity Framework Core**
+- **SQL Server**
+- **SQL Server Management Studio**
+- **Postman**
+- **Git e GitHub**
+
+---
 
 ## Funcionalidades implementadas
 
@@ -25,7 +60,7 @@ O objetivo do projeto é praticar a construção de uma API organizada, com sepa
 - Remover produto
 - Validar dados de entrada
 - Relacionar produto com categoria
-- Retornar nome da categoria junto ao produto
+- Retornar o nome da categoria junto ao produto
 
 ### Categorias
 
@@ -35,6 +70,8 @@ O objetivo do projeto é praticar a construção de uma API organizada, com sepa
 - Atualizar categoria
 - Remover categoria
 - Validar dados de entrada
+
+---
 
 ## Estrutura do projeto
 
@@ -68,6 +105,8 @@ DevStore.Api/
 └── appsettings.json
 ```
 
+---
+
 ## Conceitos praticados
 
 - Criação de APIs REST com ASP.NET Core
@@ -83,6 +122,19 @@ DevStore.Api/
 - Validações básicas
 - Retornos HTTP adequados
 - Testes manuais com Postman
+
+---
+
+## Decisões técnicas
+
+- A API foi organizada separando **Controllers**, **Services**, **DTOs**, **Models** e camada de **Data**.
+- Os **Controllers** ficaram responsáveis por receber as requisições e retornar respostas HTTP.
+- Os **Services** concentram as regras de negócio e validações principais.
+- Os **DTOs** foram utilizados para separar os dados recebidos e retornados pela API das entidades do banco.
+- O **Entity Framework Core** foi utilizado para persistência dos dados e criação das migrations.
+- O relacionamento entre produtos e categorias foi implementado para praticar associação **1:N** entre entidades.
+
+---
 
 ## Relacionamento entre entidades
 
@@ -101,27 +153,31 @@ public int CategoryId { get; set; }
 public Category Category { get; set; } = null!;
 ```
 
+---
+
 ## Endpoints principais
 
 ### Produtos
 
-```txt
-GET    /api/products
-GET    /api/products/{id}
-POST   /api/products
-PUT    /api/products/{id}
-DELETE /api/products/{id}
-```
+| Método | Rota | Descrição |
+|---|---|---|
+| `GET` | `/api/products` | Lista todos os produtos |
+| `GET` | `/api/products/{id}` | Busca um produto pelo ID |
+| `POST` | `/api/products` | Cria um novo produto |
+| `PUT` | `/api/products/{id}` | Atualiza um produto existente |
+| `DELETE` | `/api/products/{id}` | Remove um produto |
 
 ### Categorias
 
-```txt
-GET    /api/categories
-GET    /api/categories/{id}
-POST   /api/categories
-PUT    /api/categories/{id}
-DELETE /api/categories/{id}
-```
+| Método | Rota | Descrição |
+|---|---|---|
+| `GET` | `/api/categories` | Lista todas as categorias |
+| `GET` | `/api/categories/{id}` | Busca uma categoria pelo ID |
+| `POST` | `/api/categories` | Cria uma nova categoria |
+| `PUT` | `/api/categories/{id}` | Atualiza uma categoria existente |
+| `DELETE` | `/api/categories/{id}` | Remove uma categoria |
+
+---
 
 ## Exemplos de requisição
 
@@ -157,6 +213,8 @@ DELETE /api/categories/{id}
 }
 ```
 
+---
+
 ## Como executar o projeto
 
 ### Pré-requisitos
@@ -164,11 +222,23 @@ DELETE /api/categories/{id}
 - .NET SDK instalado
 - SQL Server instalado
 - SQL Server Management Studio ou ferramenta equivalente
-- Visual Studio ou editor compatível com C#
+- Visual Studio, VS Code ou editor compatível com C#
 
-### Configurar conexão com banco
+### 1. Clone o repositório
 
-No arquivo `appsettings.json`, configure a connection string:
+```bash
+git clone https://github.com/lucassousa-dev/devstore-api.git
+```
+
+### 2. Acesse a pasta do projeto
+
+```bash
+cd devstore-api/DevStore.Api
+```
+
+### 3. Configure a conexão com o banco
+
+No arquivo `appsettings.json`, configure a connection string conforme a instância do seu SQL Server:
 
 ```json
 "ConnectionStrings": {
@@ -176,9 +246,9 @@ No arquivo `appsettings.json`, configure a connection string:
 }
 ```
 
-Ajuste o nome do servidor conforme a instância do SQL Server instalada na máquina.
+> Ajuste o nome do servidor conforme a instância do SQL Server instalada na sua máquina.
 
-### Aplicar migrations
+### 4. Aplique as migrations
 
 No terminal, dentro da pasta do projeto, execute:
 
@@ -186,30 +256,53 @@ No terminal, dentro da pasta do projeto, execute:
 dotnet ef database update
 ```
 
-### Executar a API
+### 5. Execute a API
 
 ```bash
 dotnet run
 ```
 
-A API será iniciada em uma URL local informada no terminal, como:
+A API será iniciada em uma URL local informada no terminal, por exemplo:
 
 ```txt
 https://localhost:7013
 ```
 
-## Status do projeto
+---
 
-Projeto em desenvolvimento para estudo e evolução técnica em ASP.NET Core.
+## Testes manuais
 
-Funcionalidades já implementadas:
+Os endpoints foram testados manualmente com **Postman**, validando os principais fluxos:
 
-- CRUD de produtos
-- CRUD de categorias
-- Banco de dados com SQL Server
-- Entity Framework Core
-- Relacionamento entre produtos e categorias
-- DTOs
-- Services
-- Validações básicas
-- Testes manuais com Postman
+- criação de categorias;
+- criação de produtos vinculados a categorias;
+- listagem de produtos e categorias;
+- busca por ID;
+- atualização;
+- remoção;
+- validações básicas;
+- retorno do nome da categoria junto ao produto.
+
+---
+
+## Próximos passos possíveis
+
+Este projeto foi desenvolvido como estudo de fundamentos em ASP.NET Core. Algumas melhorias possíveis seriam:
+
+- Implementar tratamento global de exceções
+- Converter operações para métodos assíncronos
+- Criar interfaces para os Services
+- Criar camada de Repository
+- Implementar paginação e filtros na listagem de produtos
+- Melhorar validações com Data Annotations ou FluentValidation
+- Adicionar testes automatizados
+- Criar autenticação com JWT
+
+---
+
+## Autor
+
+**Lucas G. Sousa**
+
+- LinkedIn: [linkedin.com/in/lucassousads](https://www.linkedin.com/in/lucassousads/)
+- GitHub: [github.com/lucassousa-dev](https://github.com/lucassousa-dev)
